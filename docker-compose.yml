@@ -21,7 +21,7 @@ services:
       ServerIP: ${VLAN_IP}
       FTLCONF_REPLY_ADDR4: ${VLAN_IP}
       VIRTUAL_HOST: pihole.${DOMAIN}
-      DHCP_ACTIVE: "false"
+      DHCP_ACTIVE: "true"
       DHCP_START: ${DHCP_START}
       DHCP_END: 1${DHCP_END}
       DHCP_ROUTER: 1${DHCP_ROUTER}
