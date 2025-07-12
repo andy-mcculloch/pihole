@@ -10,8 +10,8 @@ services:
       - 67/udp # Only required if you are using Pi-hole as your DHCP server
       - 80/tcp
     networks:
-      # proxy:
-      #   ipv4_address: ${DOCKER_IP}
+      proxy:
+        ipv4_address: ${DOCKER_IP}
       macvlan-system:
         ipv4_address: ${VLAN_IP}
     environment:
