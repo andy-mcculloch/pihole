@@ -11,7 +11,7 @@ services:
       - 80/tcp
     networks:
       proxy:
-        ipv4_address: ${DOCKER_IP}
+        # ipv4_address: ${DOCKER_IP}
       macvlan-system:
         ipv4_address: ${VLAN_IP}
     environment:
