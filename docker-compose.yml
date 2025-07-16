@@ -10,16 +10,27 @@ services:
       - 67/udp # Only required if you are using Pi-hole as your DHCP server
       - 80/tcp
     networks:
-      proxy:
-        # ipv4_address: ${DOCKER_IP}
-      macvlan-system:
-        ipv4_address: ${VLAN_IP}
+      user-vlan:
+        ipv4_address: ${USER_VLAN_IP}
+        mac_address: ${USER_VLAN_MAC}
+      iot-vlan:
+        ipv4_address: ${IOT_VLAN_IP}
+        mac_address: ${IOT_VLAN_MAC}
+      cctv-vlan:
+        ipv4_address: ${CCTV_VLAN_IP}
+        mac_address: ${CCTV_VLAN_MAC}
+      proxy-vlan:
+        ipv4_address: ${PROXY_VLAN_IP}
+        mac_address: ${PROXY_VLAN_MAC}
+      system-vlan:
+        ipv4_address: ${SYSTEM_VLAN_IP}
+        mac_address: ${SYSTEM_VLAN_MAC}
     environment:
       TZ: UTC
       WEBPASSWORD: ${WEBPASSWORD}
       PIHOLE_DNS_: 9.9.9.9;149.112.112.112
-      ServerIP: ${VLAN_IP}
-      FTLCONF_REPLY_ADDR4: ${VLAN_IP}
+      ServerIP: ${SYSTEM_VLAN_IP}
+      FTLCONF_REPLY_ADDR4: ${SYSTEM_VLAN_IP}
       VIRTUAL_HOST: pihole.${DOMAIN}
       DHCP_ACTIVE: "true"
       DHCP_START: ${DHCP_START}
@@ -36,7 +47,7 @@ services:
     restart: unless-stopped
     labels:
       - traefik.enable=true
-      - traefik.docker.network=proxy
+      - traefik.docker.network=proxy-vlan
       - traefik.http.routers.pihole.rule=Host(`pihole.${DOMAIN}`)
       - traefik.http.services.pihole.loadbalancer.server.port=80
       - traefik.http.routers.pihole.entrypoints=websecure
@@ -45,9 +56,15 @@ services:
 ##############################
 
 networks:
-  macvlan-system:
+  user-vlan:
     external: true
-  proxy:
+  iot-vlan:
+    external: true
+  cctv-vlan:
+    external: true
+  proxy-vlan:
+    external: true
+  system-vlan:
     external: true
 
 # volumes:
